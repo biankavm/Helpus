@@ -1,7 +1,7 @@
 import { InitialInputs } from 'components';
 import { useState } from 'react';
 
-export default function SignUp() {
+export function SignUp() {
   const [name, setName] = useState('');
   return (
     <InitialInputs

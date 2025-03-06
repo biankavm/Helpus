@@ -1,6 +1,6 @@
 import { InitialInputs } from 'components';
 
-export default function SignIn() {
+export function SignIn() {
   return (
     <InitialInputs
       title="Login"
