@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-export function InitialInputs({ children, title }) {
+export function InitialInputs({ children = null, title }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
