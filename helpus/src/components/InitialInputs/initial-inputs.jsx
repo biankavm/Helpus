@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-export function InitialInputs({ children = null, title }) {
+export function InitialInputs({
+  children = null,
+  title,
+  buttonText,
+  linkText,
+  url,
+}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -36,11 +42,11 @@ export function InitialInputs({ children = null, title }) {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit"> Acessar </button>
+            <button type="submit"> {buttonText} </button>
           </form>
         </FormProvider>
 
-        <Link to="/register"> Criar uma conta </Link>
+        <Link to={url}> {linkText} </Link>
       </div>
     </div>
   );

@@ -34,5 +34,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^react-router-dom$": "<rootDir>/__mocks__/react-router-dom.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js(x)"
+    ]
   }
 }
