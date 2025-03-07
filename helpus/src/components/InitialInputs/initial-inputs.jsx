@@ -1,9 +1,11 @@
 import styles from './initial-inputs.module.scss';
 import logo from 'assets/my-logo5.png';
+
 import { useContext, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AuthContext } from 'contexts';
+
 export function InitialInputs({
   children = null,
   title,
@@ -22,11 +24,16 @@ export function InitialInputs({
     return Object.values(conditional).every((value) => value.trim() !== '');
   };
 
-  const { signIn } = useContext(AuthContext);
-  function handleSubmit(e) {
+  const { signIn, signUp, loadingAuth } = useContext(AuthContext);
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (isFormValid()) {
+
+    if (isFormValid() && origin === 'signin') {
       signIn(email, password);
+    }
+
+    if (isFormValid() && origin === 'signup') {
+      await signUp(name, email, password);
     }
   }
   return (
@@ -35,7 +42,7 @@ export function InitialInputs({
         <div className={styles.containerLoginArea}>
           <img
             src={logo}
-            alt="Imagem de uma pessoa com um fone de ouvido em frente a um notebook respondendo a um chamado."
+            alt="Garota sorrindo usando uma roupa verde e um headseat azuul."
           />
         </div>
         <FormProvider onSubmit={() => {}}>
@@ -57,7 +64,9 @@ export function InitialInputs({
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit"> {buttonText} </button>
+            <button type="submit">
+              {loadingAuth ? 'Carregando...' : buttonText}
+            </button>
           </form>
         </FormProvider>
 
