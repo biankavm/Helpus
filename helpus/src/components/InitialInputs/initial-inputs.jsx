@@ -1,19 +1,34 @@
 import styles from './initial-inputs.module.scss';
 import logo from 'assets/my-logo5.png';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-
+import { AuthContext } from 'contexts';
 export function InitialInputs({
   children = null,
   title,
   buttonText,
   linkText,
   url,
+  origin,
+  name = '',
 }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const conditional =
+    origin === 'signin' ? { email, password } : { name, email, password };
 
+  const isFormValid = () => {
+    return Object.values(conditional).every((value) => value.trim() !== '');
+  };
+
+  const { signIn } = useContext(AuthContext);
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (isFormValid()) {
+      signIn(email, password);
+    }
+  }
   return (
     <div className={styles.container}>
       <div className={styles.containerLogin}>
@@ -24,7 +39,7 @@ export function InitialInputs({
           />
         </div>
         <FormProvider onSubmit={() => {}}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <h1> {title} </h1>
 
             {children}

@@ -3,12 +3,15 @@ import { useState } from 'react';
 
 export function SignUp() {
   const [name, setName] = useState('');
+
   return (
     <InitialInputs
       title="Sign Up"
       buttonText="Cadastrar"
       linkText="Já possui uma conta? Faça login."
       url="/"
+      origin="signup"
+      name={name}
     >
       <input
         type="text"
