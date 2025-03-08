@@ -29,7 +29,7 @@ export function InitialInputs({
     e.preventDefault();
 
     if (isFormValid() && origin === 'signin') {
-      signIn(email, password);
+      await signIn(email, password);
     }
 
     if (isFormValid() && origin === 'signup') {
