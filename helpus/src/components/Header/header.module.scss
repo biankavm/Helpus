@@ -3,6 +3,7 @@
   position: fixed;
   height: 100%;
   overflow: auto;
+  width: 200px;
 
   div {
     background: url('../../assets/cover.png');
@@ -50,4 +51,39 @@
 .content {
   margin-left: 200px;
   padding: 1px 16px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto; // preenche o espaço com o conteúdo
+    position: relative;
+
+    a {
+      float: left; // passam a ficar lado a lado da esquerda para direita
+
+      svg {
+        display: none;
+      }
+    }
+
+    div {
+      display: none; // esconde a div
+    }
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+
+    svg {
+      display: none;
+    }
+  }
 }
