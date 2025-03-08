@@ -1,0 +1,53 @@
+.sidebar {
+  background-color: #181c2e;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+
+  div {
+    background: url('../../assets/cover.png');
+    background-color: #181c2e;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 150px;
+    padding-top: 30px;
+
+    img {
+      width: 90px;
+      height: 90px;
+      display: block; // centralizar
+      margin: auto;
+      border-radius: 50%; // sempre ser redonda
+      object-fit: cover; // sempre pegar a imagem inteira quando houver url
+      filter: drop-shadow(2px 3px 6px #121212); // sombra atrás da imagem
+      -webkit-filter: drop-shadow(
+        2px 3px 6px #121212
+      ); // sombra atrás da imagem para navegadores antigos
+    }
+  }
+
+  a {
+    display: block;
+    padding: 16px;
+    display: flex;
+    color: rgba(255, 255, 255, 0.7);
+    flex-direction: row;
+    align-items: center;
+    transition: ease-in-out 0.4s; // transição ao passar o mouse
+
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+
+  a:hover {
+    background-color: #121212;
+    color: #fff;
+  }
+}
+
+.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}

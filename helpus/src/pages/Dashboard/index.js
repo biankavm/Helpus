@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { AuthContext } from 'contexts'
+import { Header } from 'components'
 
 export function Dashboard() {
   const { logout } = useContext(AuthContext)
@@ -9,6 +10,7 @@ export function Dashboard() {
   }
   return (
     <div>
+      <Header />
       <h1> Página dashboard </h1>
       <button onClick={handleLogout}> Deslogar </button>
     </div>
