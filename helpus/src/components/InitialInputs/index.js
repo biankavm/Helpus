@@ -1,1 +1,1 @@
-export * from './initial-inputs';
+export * from './initial-inputs'

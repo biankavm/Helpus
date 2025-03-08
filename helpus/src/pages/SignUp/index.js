@@ -1,8 +1,8 @@
-import { InitialInputs } from 'components';
-import { useState } from 'react';
+import { InitialInputs } from 'components'
+import { useState } from 'react'
 
 export function SignUp() {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('')
 
   return (
     <InitialInputs
@@ -20,5 +20,5 @@ export function SignUp() {
         onChange={(e) => setName(e.target.value)}
       />
     </InitialInputs>
-  );
+  )
 }

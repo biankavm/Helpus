@@ -1,6 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
-import { SignIn, SignUp, Dashboard } from '../pages';
-import { Private } from './Private';
+import { Routes, Route } from 'react-router-dom'
+import { SignIn, SignUp, Dashboard } from '../pages'
+import { Private } from './Private'
 
 export default function RoutesApp() {
   return (
@@ -16,5 +16,5 @@ export default function RoutesApp() {
         }
       />
     </Routes>
-  );
+  )
 }

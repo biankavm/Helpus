@@ -1,9 +1,9 @@
-import { InitialInputs } from 'components';
-import { AuthContext } from 'contexts';
-import { useContext } from 'react';
+import { InitialInputs } from 'components'
+import { AuthContext } from 'contexts'
+import { useContext } from 'react'
 
 export function SignIn() {
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext)
 
   return (
     <InitialInputs
@@ -13,5 +13,5 @@ export function SignIn() {
       url="/register"
       origin="signin"
     />
-  );
+  )
 }

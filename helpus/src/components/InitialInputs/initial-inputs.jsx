@@ -1,10 +1,10 @@
-import styles from './initial-inputs.module.scss';
-import logo from 'assets/my-logo5.png';
+import styles from './initial-inputs.module.scss'
+import logo from 'assets/my-logo5.png'
 
-import { useContext, useState } from 'react';
-import { FormProvider } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { AuthContext } from 'contexts';
+import { useContext, useState } from 'react'
+import { FormProvider } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { AuthContext } from 'contexts'
 
 export function InitialInputs({
   children = null,
@@ -13,27 +13,27 @@ export function InitialInputs({
   linkText,
   url,
   origin,
-  name = '',
+  name = ''
 }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const conditional =
-    origin === 'signin' ? { email, password } : { name, email, password };
+    origin === 'signin' ? { email, password } : { name, email, password }
 
   const isFormValid = () => {
-    return Object.values(conditional).every((value) => value.trim() !== '');
-  };
+    return Object.values(conditional).every((value) => value.trim() !== '')
+  }
 
-  const { signIn, signUp, loadingAuth } = useContext(AuthContext);
+  const { signIn, signUp, loadingAuth } = useContext(AuthContext)
   async function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     if (isFormValid() && origin === 'signin') {
-      await signIn(email, password);
+      await signIn(email, password)
     }
 
     if (isFormValid() && origin === 'signup') {
-      await signUp(name, email, password);
+      await signUp(name, email, password)
     }
   }
   return (
@@ -73,5 +73,5 @@ export function InitialInputs({
         <Link to={url}> {linkText} </Link>
       </div>
     </div>
-  );
+  )
 }
