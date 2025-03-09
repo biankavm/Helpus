@@ -45,30 +45,28 @@ export function InitialInputs({
             alt="Garota sorrindo usando uma roupa verde e um headseat azuul."
           />
         </div>
-        <FormProvider onSubmit={() => {}}>
-          <form onSubmit={handleSubmit}>
-            <h1> {title} </h1>
+        <form onSubmit={handleSubmit}>
+          <h1> {title} </h1>
 
-            {children}
-            <input
-              type="text"
-              placeholder="email@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          {children}
+          <input
+            type="text"
+            placeholder="email@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-            <input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <input
+            type="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <button type="submit">
-              {loadingAuth ? 'Carregando...' : buttonText}
-            </button>
-          </form>
-        </FormProvider>
+          <button type="submit">
+            {loadingAuth ? 'Carregando...' : buttonText}
+          </button>
+        </form>
 
         <Link to={url}> {linkText} </Link>
       </div>
