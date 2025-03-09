@@ -1,0 +1,23 @@
+form {
+  textarea {
+    resize: none;
+    height: 105px;
+  }
+
+  input[type='radio'] {
+    margin: 15px 0;
+  }
+
+  input[type='radio']:not(:first-child) {
+    // aplica margem a esquerda nos radios desde que nao seja o primeiro elemento
+    margin-left: 15px;
+  }
+}
+
+.status {
+  margin-bottom: 1em;
+  span {
+    padding-left: 0.5em;
+    font-size: 1.3em;
+  }
+}
