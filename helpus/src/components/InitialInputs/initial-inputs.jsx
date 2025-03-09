@@ -1,5 +1,5 @@
 import styles from './initial-inputs.module.scss'
-import logo from 'assets/my-logo5.png'
+import logo from 'assets/my-logo.png'
 
 import { useContext, useState } from 'react'
 import { FormProvider } from 'react-hook-form'
