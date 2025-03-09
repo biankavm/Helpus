@@ -67,6 +67,7 @@ export function AuthProvider({ children }) {
 
         await setDoc(doc(db, 'users', uid), {
           name: name,
+          email: email,
           avatarUrl: null
         }).then(() => {
           let data = {
@@ -108,7 +109,9 @@ export function AuthProvider({ children }) {
         signUp,
         logout,
         loading,
-        loadingAuth
+        loadingAuth,
+        storageUser,
+        setUser
       }}
     >
       {children}

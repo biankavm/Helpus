@@ -23,13 +23,13 @@ export function Header() {
         Chamados
       </Link>
 
-      <Link to='/customers'>
-        <FiUser color='#fff' size={24} />
+      <Link to="/customers">
+        <FiUser color="#fff" size={24} />
         Clientes
       </Link>
 
-      <Link to='/settings'>
-        <FiSettings color='#fff' size={24}/>
+      <Link to="/profile">
+        <FiSettings color="#fff" size={24} />
         Perfil
       </Link>
     </div>
