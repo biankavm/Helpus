@@ -34,7 +34,10 @@
 }
 
 @media screen and (max-width: 700px) {
+  .content {
+    margin-left: 0;
+  }
   .formProfile button {
-    width: 100%; // responsividade para o botão de salvar o cliente
+    width: 100%; /* responsividade para o botão de salvar o cliente */
   }
 }

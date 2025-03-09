@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db, storage } from 'services/firebase-connection'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage' // para manipular arquivos, nesse caso a foto do usuario
+import '../general.css'
 
 export function Profile() {
   const { user, storageUser, setUser, logout } = useContext(AuthContext)
@@ -83,12 +84,12 @@ export function Profile() {
   return (
     <>
       <Header />
-      <div className={styles.content}>
+      <div className="content">
         <Title name="Minha conta">
           <FiSettings size={25} />
         </Title>
 
-        <div className={styles.container}>
+        <div className="container">
           <form className={styles.formProfile} onSubmit={handleSubmit}>
             <label className={styles.labelAvatar}>
               <span>

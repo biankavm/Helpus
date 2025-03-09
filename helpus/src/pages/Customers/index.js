@@ -1,10 +1,10 @@
 import { Header, Title } from 'components'
 import { FiUser } from 'react-icons/fi'
-import styles from './customers.module.scss'
 import { useState } from 'react'
 import { db } from 'services/firebase-connection'
 import { collection, addDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import '../general.css'
 
 export function Customers() {
   const [name, setName] = useState('')
@@ -38,13 +38,13 @@ export function Customers() {
   return (
     <>
       <Header />
-      <div className={styles.content}>
+      <div className="content">
         <Title name="Novo Cliente">
           <FiUser size={25} />
         </Title>
 
-        <div className={styles.container}>
-          <form className={styles.formProfile} onSubmit={handleRegister}>
+        <div className="container">
+          <form className="formProfile" onSubmit={handleRegister}>
             <label> Nome fantasia </label>
             <input
               type="text"

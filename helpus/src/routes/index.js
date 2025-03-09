@@ -1,5 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
-import { SignIn, SignUp, Dashboard, Profile, Customers } from '../pages'
+import {
+  SignIn,
+  SignUp,
+  Dashboard,
+  Profile,
+  Customers,
+  NewTicket
+} from '../pages'
 import { Private } from './Private'
 
 export default function RoutesApp() {
@@ -29,6 +36,14 @@ export default function RoutesApp() {
         element={
           <Private>
             <Customers />
+          </Private>
+        }
+      />
+      <Route
+        path="/newticket"
+        element={
+          <Private>
+            <NewTicket />
           </Private>
         }
       />
