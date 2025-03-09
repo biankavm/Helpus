@@ -1,0 +1,40 @@
+.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+.container {
+  display: flex;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 0.8em;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.formProfile {
+  label {
+    margin-bottom: 0.5em;
+    font-size: 1.4em;
+  }
+
+  input,
+  textarea,
+  select {
+    margin-bottom: 1em;
+    padding: 0.7em;
+    border: 0;
+    border-radius: 5px;
+    max-width: 600px;
+  }
+
+  button {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .formProfile button {
+    width: 100%; // responsividade para o botão de salvar o cliente
+  }
+}

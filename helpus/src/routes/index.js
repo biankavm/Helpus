@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { SignIn, SignUp, Dashboard, Profile } from '../pages'
+import { SignIn, SignUp, Dashboard, Profile, Customers } from '../pages'
 import { Private } from './Private'
 
 export default function RoutesApp() {
@@ -20,6 +20,15 @@ export default function RoutesApp() {
         element={
           <Private>
             <Profile />
+          </Private>
+        }
+      />
+
+      <Route
+        path="/customers"
+        element={
+          <Private>
+            <Customers />
           </Private>
         }
       />
