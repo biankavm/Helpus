@@ -1,0 +1,48 @@
+.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+.container {
+  display: flex;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 0.8em;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.newTicket {
+  float: right;
+  margin-bottom: 1.5em;
+  background-color: #50af81;
+  padding: 0.5em;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  font-weight: 600;
+  color: #fff;
+  transition: ease-in-out 0.3s;
+  svg {
+    margin-right: 5px;
+  }
+}
+
+.newTicket:hover {
+  background-color: #3f8664;
+  transform: scale(1.05);
+}
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

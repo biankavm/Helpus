@@ -2,14 +2,37 @@ import { Header, Title } from 'components'
 import { FiUser } from 'react-icons/fi'
 import styles from './customers.module.scss'
 import { useState } from 'react'
+import { db } from 'services/firebase-connection'
+import { collection, addDoc } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 
 export function Customers() {
   const [name, setName] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [address, setAddress] = useState('')
 
-  function handleRegister(e) {
+  async function handleRegister(e) {
     e.preventDefault()
+
+    if (name !== '' && cnpj !== '' && address !== '') {
+      await addDoc(collection(db, 'customers'), {
+        fantasyName: name,
+        cnpj: cnpj,
+        address: address
+      })
+        .then(() => {
+          setName('')
+          setCnpj('')
+          setAddress('')
+          toast.success(`Cliente ${name} cadastrado com sucesso!`)
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error)
+          toast.error('Erro ao fazer o cadastro! Tente novamente.')
+        })
+    } else {
+      toast.error('Preencha todos os campos!')
+    }
   }
 
   return (
