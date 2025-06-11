@@ -22,6 +22,8 @@ export function Dashboard() {
   const [tickets, setTickets] = useState([])
   const [loadTickets, setLoadTickets] = useState(true)
   const [isEmpty, setIsEmpty] = useState(false)
+  const [lastDoc, setLastDoc] = useState()
+  const [loadingMore, setLoadingMore] = useState(false)
 
   function formatDate(date) {
     const dateObject = new Date(date)
@@ -36,6 +38,7 @@ export function Dashboard() {
       const q = query(listRef, orderBy('created', 'desc'), limit(5)) // passa a lista de tickets, ordena por data de criação e limita a 5
 
       const querySnapshot = await getDocs(q)
+      setTickets([])
       await updateState(querySnapshot)
       setLoadTickets(false)
     }
@@ -63,7 +66,25 @@ export function Dashboard() {
       })
     })
 
-    setTickets(listTickets)
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+
+    setTickets((tickets) => [...tickets, ...listTickets])
+    setLastDoc(lastDoc)
+    setLoadingMore(false)
+  }
+
+  async function handleLoadMore() {
+    setLoadingMore(true)
+    const q = query(
+      listRef,
+      orderBy('created', 'desc'),
+      startAfter(lastDoc),
+      limit(5)
+    ) // o startAfter pega o último documento da lista e pula para o próximo
+
+    const querySnapshot = await getDocs(q)
+    await updateState(querySnapshot)
+    // setLoadingMore(false)
   }
 
   if (loadTickets) {
@@ -79,6 +100,12 @@ export function Dashboard() {
         </div>
       </div>
     )
+  }
+
+  function handleColorStatus(status) {
+    if (status === 'Aberto') return [styles.badgeAberto]
+    if (status === 'Em progresso') return [styles.badgeProgresso]
+    if (status === 'Atendido') return [styles.badgeAtendido]
   }
 
   return (
@@ -116,10 +143,11 @@ export function Dashboard() {
                         <td data-label="Assunto"> {ticket.subject} </td>
                         <td data-label="Status">
                           <span
-                            className={styles.badge}
-                            style={{ backgroundColor: '#999' }}
+                            className={`${styles.badge} ${handleColorStatus(
+                              ticket.status
+                            )}`}
                           >
-                            {ticket.subject}
+                            {ticket.status}
                           </span>
                         </td>
                         <td data-label="Cadastrado em">
@@ -133,18 +161,32 @@ export function Dashboard() {
                           >
                             <FiSearch size={17} />
                           </button>
-                          <button
+                          <Link
+                            to={`/newticket/${ticket.id}`}
                             style={{ backgroundColor: '#F4B183' }}
                             className={styles.action}
                           >
                             <FiEdit2 size={17} />
-                          </button>
+                          </Link>
                         </td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
+
+              {loadingMore && (
+                <h3 className={styles.loadingMore}>
+                  {' '}
+                  Buscando mais chamados...
+                </h3>
+              )}
+              {!loadingMore && !isEmpty && (
+                <button className={styles.buttonMore} onClick={handleLoadMore}>
+                  {' '}
+                  Buscar mais{' '}
+                </button>
+              )}
             </>
           )}
         </>

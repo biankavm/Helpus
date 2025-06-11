@@ -5,8 +5,17 @@ import styles from './newticket.module.scss'
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from 'contexts'
 import { db } from 'services/firebase-connection'
-import { collection, getDocs, addDoc } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc
+} from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 export function NewTicket() {
   const { user } = useContext(AuthContext)
@@ -17,7 +26,10 @@ export function NewTicket() {
   const [status, setStatus] = useState('Aberto')
   const [loadCustomer, setLoadCustomer] = useState(true)
   const [customerSelected, setCustomerSelected] = useState('')
+  const [edit, setEdit] = useState(false)
 
+  const { id } = useParams()
+  const navigate = useNavigate()
   const listRef = collection(db, 'customers')
 
   function handleOptionChange(e) {
@@ -51,6 +63,8 @@ export function NewTicket() {
           }
           setCustomers(listCustomers)
           setLoadCustomer(false)
+
+          if (id) loadId()
         })
         .catch((error) => {
           console.error('Error getting documents: ', error)
@@ -59,10 +73,48 @@ export function NewTicket() {
         })
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [id])
+
+  async function loadId() {
+    const docRef = doc(db, 'tickets', id)
+    await getDoc(docRef)
+      .then((snapshot) => {
+        setSubject(snapshot.data().subject)
+        setComplement(snapshot.data().complement)
+        setStatus(snapshot.data().status)
+        setCustomerSelected(snapshot.data().clientId)
+
+        setEdit(true)
+      })
+      .catch((error) => {
+        console.log(error)
+        setEdit(false)
+      })
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    if (edit) {
+      const docRef = doc(db, 'tickets', id)
+      await updateDoc(docRef, {
+        subject: subject,
+        complement: complement,
+        status: status,
+        clientId: customerSelected
+      })
+        .then(() => {
+          toast.success('Chamado atualizado!')
+          setComplement('')
+          setCustomerSelected('')
+          navigate('/dashboard')
+        })
+        .catch((error) => {
+          console.log(error)
+          toast.error('Ops! Erro ao atualizar. Tente novamente!')
+        })
+      return
+    }
 
     const selectedCustomer = customers.find(
       (customer) => customer.id === customerSelected
@@ -97,7 +149,7 @@ export function NewTicket() {
     <>
       <Header />
       <div className="content">
-        <Title name="Novo Chamado">
+        <Title name={id ? 'Editar Chamado' : 'Novo Chamado'}>
           <FiPlusCircle size={25} />
         </Title>
 
