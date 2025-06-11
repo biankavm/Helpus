@@ -5,7 +5,7 @@ import styles from './newticket.module.scss'
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from 'contexts'
 import { db } from 'services/firebase-connection'
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 
 export function NewTicket() {
@@ -16,7 +16,7 @@ export function NewTicket() {
   const [subject, setSubject] = useState('Suporte')
   const [status, setStatus] = useState('Aberto')
   const [loadCustomer, setLoadCustomer] = useState(true)
-  const [customerSelected, setCustomerSelected] = useState(0)
+  const [customerSelected, setCustomerSelected] = useState('')
 
   const listRef = collection(db, 'customers')
 
@@ -45,7 +45,7 @@ export function NewTicket() {
           })
           if (listCustomers.length === 0) {
             console.log('No matching documents.')
-            setCustomers([{ id: 1, nomeFantasia: 'Freela' }])
+            setCustomers([{ id: '1', fantasyName: 'Freela' }])
             setLoadCustomer(false)
             return
           }
@@ -55,10 +55,44 @@ export function NewTicket() {
         .catch((error) => {
           console.error('Error getting documents: ', error)
           setLoadCustomer(false)
-          setCustomers([{ id: 1, nomeFantasia: 'Freela' }])
+          setCustomers([{ id: '1', fantasyName: 'Freela' }])
         })
     })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    const selectedCustomer = customers.find(
+      (customer) => customer.id === customerSelected
+    )
+
+    if (!selectedCustomer) {
+      toast.error('Selecione um cliente!')
+      return
+    }
+
+    await addDoc(collection(db, 'tickets'), {
+      created: new Date(),
+      client: selectedCustomer.fantasyName,
+      clientId: selectedCustomer.id,
+      userId: user.uid,
+      subject: subject,
+      complement: complement,
+      status: status
+    })
+      .then(() => {
+        toast.success('Chamado registrado!')
+        setComplement('')
+        setCustomerSelected('')
+      })
+      .catch((error) => {
+        console.log(error)
+        toast.error('Ops! Erro ao registrar. Tente novamente!')
+      })
+  }
+
   return (
     <>
       <Header />
@@ -68,7 +102,7 @@ export function NewTicket() {
         </Title>
 
         <div className="container">
-          <form className="formProfile">
+          <form className="formProfile" onSubmit={handleSubmit}>
             <label> Clientes </label>
 
             {loadCustomer ? (
@@ -79,9 +113,10 @@ export function NewTicket() {
               />
             ) : (
               <select value={customerSelected} onChange={handleCustomerChange}>
+                <option value="">Selecione um cliente</option>
                 {customers.map((customer) => {
                   return (
-                    <option key={customer.id} value={customer.fantasyName}>
+                    <option key={customer.id} value={customer.id}>
                       {customer.fantasyName}
                     </option>
                   )

@@ -64,8 +64,8 @@ export function Profile() {
         getDownloadURL(snapshot.ref).then(async (downloadURL) => {
           let urlPhoto = downloadURL
           const docRef = doc(db, 'users', user.uid)
-          await updateDoc(docRef, { name: name, avatarUrl: urlPhoto }).then(
-            () => {
+          await updateDoc(docRef, { name: name, avatarUrl: urlPhoto })
+            .then(() => {
               let data = {
                 ...user,
                 name: name,
@@ -75,8 +75,11 @@ export function Profile() {
               storageUser(data) // salva no localstorage
               setLoadingSave(false)
               toast.success('Atualizado com sucesso!')
-            }
-          )
+            })
+            .catch((error) => {
+              toast.error('Erro ao atualizar o perfil')
+              console.log(error)
+            })
         })
       })
   }
