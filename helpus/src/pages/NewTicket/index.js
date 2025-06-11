@@ -5,7 +5,7 @@ import styles from './newticket.module.scss'
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from 'contexts'
 import { db } from 'services/firebase-connection'
-import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore'
+import { collection, getDocs, addDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 
 export function NewTicket() {
