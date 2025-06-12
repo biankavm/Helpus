@@ -1,4 +1,4 @@
-import { Header, Title } from 'components'
+import { Header, Title, Modal } from 'components'
 import styles from './dashboard.module.scss'
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -24,6 +24,8 @@ export function Dashboard() {
   const [isEmpty, setIsEmpty] = useState(false)
   const [lastDoc, setLastDoc] = useState()
   const [loadingMore, setLoadingMore] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedTicket, setSelectedTicket] = useState(null)
 
   function formatDate(date) {
     const dateObject = new Date(date)
@@ -108,6 +110,11 @@ export function Dashboard() {
     if (status === 'Atendido') return [styles.badgeAtendido]
   }
 
+  function handleOpenModal(ticket) {
+    setSelectedTicket(ticket)
+    setModalOpen(true)
+  }
+
   return (
     <>
       <Header />
@@ -158,6 +165,7 @@ export function Dashboard() {
                           <button
                             style={{ backgroundColor: '#86B89D' }}
                             className={styles.action}
+                            onClick={() => handleOpenModal(ticket)}
                           >
                             <FiSearch size={17} />
                           </button>
@@ -165,6 +173,7 @@ export function Dashboard() {
                             to={`/newticket/${ticket.id}`}
                             style={{ backgroundColor: '#F4B183' }}
                             className={styles.action}
+                            // onClick={() => setSelectedTicket(ticket)}
                           >
                             <FiEdit2 size={17} />
                           </Link>
@@ -190,6 +199,9 @@ export function Dashboard() {
             </>
           )}
         </>
+        {modalOpen && (
+          <Modal ticket={selectedTicket} onClose={() => setModalOpen(false)} />
+        )}
       </div>
     </>
   )
