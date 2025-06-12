@@ -1,16 +1,25 @@
 import { Header, Title, Modal } from 'components'
 import styles from './dashboard.module.scss'
-import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from 'react-icons/fi'
+import {
+  FiPlus,
+  FiMessageSquare,
+  FiSearch,
+  FiEdit2,
+  FiTrash
+} from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import {
   collection,
+  doc,
+  deleteDoc,
+  getDoc,
   getDocs,
   orderBy,
   query,
   limit,
   startAfter
 } from 'firebase/firestore'
-
+import { toast } from 'react-toastify'
 import { db } from '../../services/firebase-connection'
 import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
@@ -111,8 +120,32 @@ export function Dashboard() {
   }
 
   function handleOpenModal(ticket) {
-    setSelectedTicket(ticket)
     setModalOpen(true)
+    setSelectedTicket(ticket)
+  }
+
+  async function handleDeleteTicket(id) {
+    const docRef = doc(db, 'tickets', id)
+    const docSnapshot = await getDoc(docRef)
+
+    if (docSnapshot.exists()) {
+      const confirm = window.confirm(
+        'Tem certeza que deseja deletar este chamado?'
+      )
+
+      console.log(confirm)
+
+      if (confirm) {
+        await deleteDoc(docRef)
+          .then(() => {
+            toast.success('Chamado deletado com sucesso!')
+            setTickets(tickets.filter((ticket) => ticket.id !== id))
+          })
+          .catch(() => {
+            toast.error('Erro ao deletar chamado. Tente novamente!')
+          })
+      }
+    }
   }
 
   return (
@@ -139,7 +172,7 @@ export function Dashboard() {
                     <th scope="col"> Assunto </th>
                     <th scope="col"> Status </th>
                     <th scope="col"> Cadastrado em </th>
-                    <th scope="col"> # </th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -161,7 +194,7 @@ export function Dashboard() {
                           {' '}
                           {ticket.createdFormatted}{' '}
                         </td>
-                        <td data-label="#">
+                        <td>
                           <button
                             style={{ backgroundColor: '#86B89D' }}
                             className={styles.action}
@@ -173,10 +206,17 @@ export function Dashboard() {
                             to={`/newticket/${ticket.id}`}
                             style={{ backgroundColor: '#F4B183' }}
                             className={styles.action}
-                            // onClick={() => setSelectedTicket(ticket)}
                           >
                             <FiEdit2 size={17} />
                           </Link>
+
+                          <button
+                            style={{ backgroundColor: '#fa7f72' }}
+                            className={styles.action}
+                            onClick={() => handleDeleteTicket(ticket.id)}
+                          >
+                            <FiTrash size={17} />
+                          </button>
                         </td>
                       </tr>
                     )
@@ -193,14 +233,14 @@ export function Dashboard() {
               {!loadingMore && !isEmpty && (
                 <button className={styles.buttonMore} onClick={handleLoadMore}>
                   {' '}
-                  Buscar mais{' '}
+                  Mostrar mais{' '}
                 </button>
               )}
             </>
           )}
         </>
         {modalOpen && (
-          <Modal ticket={selectedTicket} onClose={() => setModalOpen(false)} />
+          <Modal content={selectedTicket} onClose={() => setModalOpen(false)} />
         )}
       </div>
     </>
