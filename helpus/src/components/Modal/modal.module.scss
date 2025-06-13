@@ -55,34 +55,3 @@
     }
   }
 }
-
-@mixin colorStatus($status) {
-  @if $status == 'Aberto' {
-    background-color: rgb(91, 188, 233);
-  } @else if $status == 'Em progresso' {
-    background-color: #999;
-  } @else if $status == 'Atendido' {
-    background-color: #50af81;
-  }
-}
-
-.badge {
-  padding: 5px;
-  border-radius: 5px;
-  color: #fff;
-}
-
-.badgeAberto {
-  @extend .badge;
-  @include colorStatus('Aberto');
-}
-
-.badgeProgresso {
-  @extend .badge;
-  @include colorStatus('Em progresso');
-}
-
-.badgeAtendido {
-  @extend .badge;
-  @include colorStatus('Atendido');
-}

@@ -24,7 +24,8 @@ import { db } from '../../services/firebase-connection'
 import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import '../general.css'
-
+import { handleColorStatus } from '../../shared'
+import commonStyles from '../../shared/common-styles.module.scss'
 const listRef = collection(db, 'tickets')
 
 export function Dashboard() {
@@ -113,12 +114,6 @@ export function Dashboard() {
     )
   }
 
-  function handleColorStatus(status) {
-    if (status === 'Aberto') return [styles.badgeAberto]
-    if (status === 'Em progresso') return [styles.badgeProgresso]
-    if (status === 'Atendido') return [styles.badgeAtendido]
-  }
-
   function handleOpenModal(ticket) {
     setModalOpen(true)
     setSelectedTicket(ticket)
@@ -183,8 +178,11 @@ export function Dashboard() {
                         <td data-label="Assunto"> {ticket.subject} </td>
                         <td data-label="Status">
                           <span
-                            className={`${styles.badge} ${handleColorStatus(
-                              ticket.status
+                            className={`${
+                              commonStyles.badge
+                            } ${handleColorStatus(
+                              ticket.status,
+                              commonStyles
                             )}`}
                           >
                             {ticket.status}

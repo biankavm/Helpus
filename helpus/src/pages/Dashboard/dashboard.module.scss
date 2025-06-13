@@ -21,16 +21,6 @@
   transform: scale(1.05);
 }
 
-@mixin colorStatus($status) {
-  @if $status == 'Aberto' {
-    background-color: rgb(91, 188, 233);
-  } @else if $status == 'Em progresso' {
-    background-color: #999;
-  } @else if $status == 'Atendido' {
-    background-color: #50af81;
-  }
-}
-
 table {
   border: 1px solid #ccc;
   margin: 0;
@@ -55,24 +45,6 @@ table {
       vertical-align: middle;
       color: #fff;
     }
-  }
-
-  td .badge {
-    padding: 5px;
-    border-radius: 5px;
-    color: #fff;
-  }
-
-  td .badgeAberto {
-    @include colorStatus('Aberto');
-  }
-
-  td .badgeProgresso {
-    @include colorStatus('Em progresso');
-  }
-
-  td .badgeAtendido {
-    @include colorStatus('Atendido');
   }
 }
 
@@ -126,15 +98,6 @@ table td {
 .loadingMore {
   margin-top: 1em;
   color: gray;
-}
-
-@media screen and (min-width: 800px) {
-  table td .badge {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 @media screen and (max-width: 799px) {

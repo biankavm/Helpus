@@ -1,13 +1,9 @@
 import styles from './modal.module.scss'
 import { FiX } from 'react-icons/fi'
+import { handleColorStatus } from '../../shared'
+import commonStyles from '../../shared/common-styles.module.scss'
 
 export function Modal({ content, onClose }) {
-  function handleColorStatus(status) {
-    if (status === 'Aberto') return [styles.badgeAberto]
-    if (status === 'Em progresso') return [styles.badgeProgresso]
-    if (status === 'Atendido') return [styles.badgeAtendido]
-  }
-
   return (
     <div className={styles.modal}>
       <div className={styles.modalContainer}>
@@ -29,10 +25,12 @@ export function Modal({ content, onClose }) {
               {' '}
               Assunto: <i>{content.subject}</i>
             </span>
+          </div>
 
+          <div className={styles.modalRow}>
             <span>
               {' '}
-              Cadastrado em: <i>{content.created}</i>
+              Cadastrado em: <i>{content.createdFormatted}</i>
             </span>
           </div>
 
@@ -40,7 +38,7 @@ export function Modal({ content, onClose }) {
             <span>
               {' '}
               Status:{' '}
-              <i className={handleColorStatus(content.status)}>
+              <i className={handleColorStatus(content.status, commonStyles)}>
                 {content.status}
               </i>
             </span>
