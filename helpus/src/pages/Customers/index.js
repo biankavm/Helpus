@@ -12,8 +12,12 @@ import {
   getDocs,
   orderBy,
   limit,
-  startAfter
+  startAfter,
+  doc,
+  getDoc,
+  deleteDoc
 } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 
 const listRef = collection(db, 'customers')
 
@@ -83,8 +87,30 @@ export function Customers() {
     )
   }
 
-  function handleDeleteCustomer(id) {
-    console.log(id)
+  async function handleDeleteCustomer(id) {
+    const docRef = doc(db, 'customers', id)
+    const docSnapshot = await getDoc(docRef)
+
+    if (docSnapshot.exists()) {
+      const confirm = window.confirm(
+        'Tem certeza que deseja deletar este cliente?'
+      )
+
+      console.log(confirm)
+
+      if (confirm) {
+        await deleteDoc(docRef)
+          .then(() => {
+            toast.success(
+              `Cliente ${docSnapshot.data().fantasyName} deletado com sucesso!`
+            )
+            setCustomers(customers.filter((customer) => customer.id !== id))
+          })
+          .catch(() => {
+            toast.error('Erro ao deletar cliente. Tente novamente!')
+          })
+      }
+    }
   }
 
   return (
