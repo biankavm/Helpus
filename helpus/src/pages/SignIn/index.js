@@ -9,7 +9,7 @@ export function SignIn() {
     <InitialInputs
       title="Login"
       buttonText="Acessar"
-      linkText="Criar uma conta"
+      linkText="Não possui uma conta? Crie uma agora!"
       url="/register"
       origin="signin"
     />

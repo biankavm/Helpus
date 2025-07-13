@@ -6,7 +6,7 @@ export function SignUp() {
 
   return (
     <InitialInputs
-      title="Sign Up"
+      title="Cadastro"
       buttonText="Cadastrar"
       linkText="Já possui uma conta? Faça login."
       url="/"

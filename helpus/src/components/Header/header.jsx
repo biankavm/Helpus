@@ -8,7 +8,7 @@ import { FiUser, FiHome, FiSettings } from 'react-icons/fi'
 
 export function Header() {
   const { user } = useContext(AuthContext)
-
+  console.log(user.avatarUrl)
   return (
     <div className={styles.sidebar}>
       <div>
