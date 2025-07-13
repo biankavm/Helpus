@@ -18,6 +18,7 @@ import {
   deleteDoc
 } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 
 const listRef = collection(db, 'customers')
 
@@ -92,22 +93,39 @@ export function Customers() {
     const docSnapshot = await getDoc(docRef)
 
     if (docSnapshot.exists()) {
-      const confirm = window.confirm(
-        'Tem certeza que deseja deletar este cliente?'
-      )
+      const result = await Swal.fire({
+        title: 'Tem certeza?',
+        text: `Você está prestes a deletar o cliente "${
+          docSnapshot.data().fantasyName
+        }". Esta ação não pode ser revertida!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#fa7f72',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sim, deletar!',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      })
 
-      console.log(confirm)
-
-      if (confirm) {
+      if (result.isConfirmed) {
         await deleteDoc(docRef)
           .then(() => {
-            toast.success(
-              `Cliente ${docSnapshot.data().fantasyName} deletado com sucesso!`
-            )
             setCustomers(customers.filter((customer) => customer.id !== id))
+            Swal.fire({
+              title: 'Deletado!',
+              text: 'O cliente foi deletado com sucesso.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            })
           })
           .catch(() => {
-            toast.error('Erro ao deletar cliente. Tente novamente!')
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Ocorreu um erro ao deletar o cliente.',
+              icon: 'error',
+              confirmButtonColor: '#fa7f72'
+            })
           })
       }
     }

@@ -21,6 +21,8 @@ import '../general.css'
 import { handleColorStatus } from '../../shared'
 import commonStyles from '../../shared/common-styles.module.scss'
 import { TitleWithChildren } from '../../components'
+import Swal from 'sweetalert2'
+
 const listRef = collection(db, 'tickets')
 
 export function Dashboard() {
@@ -101,19 +103,6 @@ export function Dashboard() {
         icon={<FiMessageSquare size={25} />}
         text="Buscando chamados..."
       />
-      // <div>
-      //   <Header />
-      //   <div className={`content ${styles.additionalStyle}`}>
-      //     <TitleWithChildren
-      //       name="Chamados"
-      //       icon={<FiMessageSquare size={25} />}
-      //     />
-
-      //     <div className={styles.container}>
-      //       <span> Buscando chamados...</span>
-      //     </div>
-      //   </div>
-      // </div>
     )
   }
 
@@ -127,20 +116,37 @@ export function Dashboard() {
     const docSnapshot = await getDoc(docRef)
 
     if (docSnapshot.exists()) {
-      const confirm = window.confirm(
-        'Tem certeza que deseja deletar este chamado?'
-      )
+      const result = await Swal.fire({
+        title: 'Tem certeza?',
+        text: 'Você não poderá reverter esta ação!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#fa7f72',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sim, deletar!',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      })
 
-      console.log(confirm)
-
-      if (confirm) {
+      if (result.isConfirmed) {
         await deleteDoc(docRef)
           .then(() => {
-            toast.success('Chamado deletado com sucesso!')
             setTickets(tickets.filter((ticket) => ticket.id !== id))
+            Swal.fire({
+              title: 'Deletado!',
+              text: 'O chamado foi deletado com sucesso.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            })
           })
           .catch(() => {
-            toast.error('Erro ao deletar chamado. Tente novamente!')
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Ocorreu um erro ao deletar o chamado.',
+              icon: 'error',
+              confirmButtonColor: '#fa7f72'
+            })
           })
       }
     }
