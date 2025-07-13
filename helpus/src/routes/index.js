@@ -4,8 +4,9 @@ import {
   SignUp,
   Dashboard,
   Profile,
-  Customers,
-  NewTicket
+  NewCustomer,
+  NewTicket,
+  Customers
 } from '../pages'
 import { Private } from './Private'
 
@@ -27,6 +28,24 @@ export default function RoutesApp() {
         element={
           <Private>
             <Profile />
+          </Private>
+        }
+      />
+
+      <Route
+        path="/newcustomer"
+        element={
+          <Private>
+            <NewCustomer />
+          </Private>
+        }
+      />
+
+      <Route
+        path="/newcustomer/:id"
+        element={
+          <Private>
+            <NewCustomer />
           </Private>
         }
       />

@@ -1,12 +1,6 @@
-import { Header, Title, Modal } from 'components'
+import { Header, LoadItems, Modal, AddButton } from 'components'
 import styles from './dashboard.module.scss'
-import {
-  FiPlus,
-  FiMessageSquare,
-  FiSearch,
-  FiEdit2,
-  FiTrash
-} from 'react-icons/fi'
+import { FiMessageSquare, FiSearch, FiEdit2, FiTrash } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import {
   collection,
@@ -26,6 +20,7 @@ import { format } from 'date-fns'
 import '../general.css'
 import { handleColorStatus } from '../../shared'
 import commonStyles from '../../shared/common-styles.module.scss'
+import { TitleWithChildren } from '../../components'
 const listRef = collection(db, 'tickets')
 
 export function Dashboard() {
@@ -101,16 +96,24 @@ export function Dashboard() {
 
   if (loadTickets) {
     return (
-      <div>
-        <Header />
-        <div className={`content ${styles.additionalStyle}`}>
-          <TitleWithChildren />
+      <LoadItems
+        name="Chamados"
+        icon={<FiMessageSquare size={25} />}
+        text="Buscando chamados..."
+      />
+      // <div>
+      //   <Header />
+      //   <div className={`content ${styles.additionalStyle}`}>
+      //     <TitleWithChildren
+      //       name="Chamados"
+      //       icon={<FiMessageSquare size={25} />}
+      //     />
 
-          <div className={styles.container}>
-            <span> Buscando chamados...</span>
-          </div>
-        </div>
-      </div>
+      //     <div className={styles.container}>
+      //       <span> Buscando chamados...</span>
+      //     </div>
+      //   </div>
+      // </div>
     )
   }
 
@@ -148,17 +151,20 @@ export function Dashboard() {
       <Header />
 
       <div className={`content ${styles.additionalStyle}`}>
-        <TitleWithChildren />
+        <TitleWithChildren
+          name="Chamados"
+          icon={<FiMessageSquare size={25} />}
+        />
 
         <>
           {tickets.length === 0 ? (
             <div className={styles.container}>
               <span> Nenhum chamado encontrado.</span>
-              <ButtonNewTicket />
+              <AddButton to="/newticket" text="Novo chamado" />
             </div>
           ) : (
             <>
-              <ButtonNewTicket />
+              <AddButton to="/newticket" text="Novo chamado" />
 
               <table>
                 <thead>
@@ -195,7 +201,7 @@ export function Dashboard() {
                         <td>
                           <button
                             style={{ backgroundColor: '#86B89D' }}
-                            className={styles.action}
+                            className={commonStyles.action}
                             onClick={() => handleOpenModal(ticket)}
                           >
                             <FiSearch size={17} />
@@ -203,14 +209,14 @@ export function Dashboard() {
                           <Link
                             to={`/newticket/${ticket.id}`}
                             style={{ backgroundColor: '#F4B183' }}
-                            className={styles.action}
+                            className={commonStyles.action}
                           >
                             <FiEdit2 size={17} />
                           </Link>
 
                           <button
                             style={{ backgroundColor: '#fa7f72' }}
-                            className={styles.action}
+                            className={commonStyles.action}
                             onClick={() => handleDeleteTicket(ticket.id)}
                           >
                             <FiTrash size={17} />
@@ -242,22 +248,5 @@ export function Dashboard() {
         )}
       </div>
     </>
-  )
-}
-
-function ButtonNewTicket() {
-  return (
-    <Link to="/newticket" className={styles.newTicket}>
-      <FiPlus color="fff" size={25} />
-      Novo chamado
-    </Link>
-  )
-}
-
-function TitleWithChildren() {
-  return (
-    <Title name="Tickets">
-      <FiMessageSquare size={25} />
-    </Title>
   )
 }

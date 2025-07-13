@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db, storage } from 'services/firebase-connection'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage' // para manipular arquivos, nesse caso a foto do usuario
+import { TitleWithChildren } from '../../components'
 import '../general.css'
 
 export function Profile() {
@@ -88,9 +89,7 @@ export function Profile() {
     <>
       <Header />
       <div className="content">
-        <Title name="Minha conta">
-          <FiSettings size={25} />
-        </Title>
+        <TitleWithChildren name="Minha Conta" icon={<FiSettings size={25} />} />
 
         <div className="container">
           <form className={styles.formProfile} onSubmit={handleSubmit}>
