@@ -7,51 +7,276 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 99;
 
+  animation: fadeIn 0.3s ease-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &Container {
-    position: fixed;
-    max-width: 600px;
-    top: 15%;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    padding: 4em 2em;
     background-color: #fff;
+    border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 
+    max-width: 650px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+
+    animation: slideIn 0.3s ease-out;
+
+    padding: 2.5rem;
+
     &Close {
-      background-color: #63a384;
-      border: 0;
-      border-radius: 5px;
       position: absolute;
-      top: 15px;
-      left: 15px;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #63a384, #4a7c63);
+      border: none;
+      border-radius: 50%;
       display: flex;
       justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(99, 163, 132, 0.3);
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px rgba(99, 163, 132, 0.4);
+        background: linear-gradient(135deg, #4a7c63, #3a6350);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  // header of the modal
+  h2 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #63a384, #4a7c63);
+      border-radius: 2px;
+    }
+  }
+
+  // container for information in card
+  &InfoCard {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
   }
 
   &Row {
-    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e2e8f0;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
   }
 
-  p {
-    padding-top: 0.5em;
-    white-space: pre-wrap;
-    line-height: 150%;
+  // icons of the modal
+  &Icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+
+    &.client {
+      background-color: #55a1e7;
+      color: white;
+    }
+
+    &.subject {
+      background-color: #86b89d;
+      color: white;
+    }
+
+    &.date {
+      background-color: #f4b183;
+      color: white;
+    }
+
+    &.status {
+      background-color: #fa7f72;
+      color: white;
+    }
   }
 
-  h2 {
-    margin-bottom: 1.2em;
+  // Labels e valores
+  &Label {
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+    display: block;
   }
 
-  span {
-    font-weight: bold;
-    font-size: 1.1em;
+  &Value {
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 500;
 
-    i {
-      font-weight: normal;
-      margin-right: 1em;
-      padding: 2px 4px;
+    &.status {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  // Seção de complemento
+  &Complement {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-left: 4px solid #63a384;
+
+    h3 {
+      color: #2d3748;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '💬';
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+      }
+    }
+
+    p {
+      color: #4a5568;
+      line-height: 1.6;
+      font-size: 1rem;
+      white-space: pre-wrap;
+      margin: 0;
+    }
+  }
+}
+
+// animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// responsiveness
+@media (max-width: 768px) {
+  .modal {
+    padding: 10px;
+
+    &Container {
+      padding: 1.5rem;
+      border-radius: 15px;
+
+      &Close {
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    &InfoCard {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &Icon {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+
+    &Complement {
+      padding: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    &Container {
+      padding: 1rem;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    &Row {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    &Icon {
+      margin-bottom: 0.5rem;
     }
   }
 }
